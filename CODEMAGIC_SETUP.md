@@ -34,6 +34,7 @@ You'll need to add these environment variables in Codemagic:
 - `CM_KEYSTORE_PASSWORD`: Keystore password
 - `CM_KEY_ALIAS`: Key alias
 - `CM_KEY_PASSWORD`: Key password
+- `GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS`: JSON credentials from Google Play Console
 
 ### 4. Generate Android Keystore
 If you don't have a keystore for Android signing:
