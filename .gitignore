@@ -62,3 +62,6 @@ node_modules/
 # Task files
 # tasks.json
 # tasks/ 
+
+# iOS generated files (do not commit machine-specific paths)
+ios/Flutter/Generated.xcconfig

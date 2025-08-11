@@ -25,15 +25,27 @@ def flutter_root
 end
 
 # Load Flutter's CocoaPods helper which defines flutter_install_* helpers
-require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
+# Prefer the ephemeral helper (newer Flutter), fall back to classic podhelper
+flutter_ephemeral_helper = File.expand_path('../Flutter/ephemeral/.symlinks/flutter_ios_pod_helper.rb', __dir__)
+if File.exist?(flutter_ephemeral_helper)
+  require flutter_ephemeral_helper
+else
+  require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
+end
 
-flutter_ios_podfile_setup
+flutter_ios_podfile_setup if defined?(flutter_ios_podfile_setup)
 
 target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
-  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+  if defined?(flutter_install_all_ios_pods)
+    flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+  elsif defined?(flutter_install_all_ios_pods!)
+    flutter_install_all_ios_pods!
+  elsif defined?(flutter_install_all_pods)
+    flutter_install_all_pods File.dirname(File.realpath(__FILE__))
+  end
 end
 
 post_install do |installer|
