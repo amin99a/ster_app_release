@@ -7,3 +7,5 @@ workflows:
     scripts:
       - flutter build ios --simulator
       - mkdir -p build/ios/ipa
+    artifacts:
+      - build/ios/ipa
