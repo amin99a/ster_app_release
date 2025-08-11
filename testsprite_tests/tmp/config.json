@@ -1,0 +1,17 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:1337",
+  "loginUser": "khazanimohamedamin@gmail.com",
+  "loginPassword": "fx2Z$Vbw",
+  "executionArgs": {
+    "projectName": "ster_app",
+    "projectPath": "C:\\Users\\hp\\ster_app",
+    "testIds": [],
+    "additionalInstruction": "Focus on testing the core API endpoints including authentication, car management, booking system, payment integration, and real-time messaging. Test both the Flutter frontend and Strapi backend APIs comprehensively.",
+    "envs": {
+      "API_KEY": "sk-user-p6Px_4D9CSgDvKu9AhbgRddCTkGveCgq3gztBGmvDb7_cto92UQ5N0IefMT5sz-GaaZ16QiqCNJpyNPTzG_9cPXoHuG_xY_n7IkWtEm44jIAWotMYoNEbiwUcsikpbmJ5d4"
+    }
+  }
+}

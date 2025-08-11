@@ -1,0 +1,63 @@
+name: ster_app
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  provider: ^6.1.1
+  cached_network_image: ^3.3.0
+  image_picker: ^1.0.4
+  supabase_flutter: ^2.9.1
+  google_sign_in: ^6.2.1
+  sign_in_with_apple: ^7.0.0
+  google_fonts: ^6.3.0
+  lucide_icons: ^0.257.0
+  shared_preferences: ^2.2.2
+  http: ^1.1.0
+  path: ^1.8.3
+  crypto: ^3.0.3
+  url_launcher: ^6.2.4
+  share_plus: ^7.2.1
+  app_links: ^3.5.1
+  google_maps_flutter: ^2.5.3
+  geolocator: ^14.0.2
+  geocoding: ^4.0.0
+  table_calendar: ^3.0.9
+  intl: ^0.20.2
+  package_info_plus: ^8.0.0
+  flutter_local_notifications: ^17.2.2
+  permission_handler: ^11.3.1
+  flutter_stripe: ^10.1.0
+  connectivity_plus: ^5.0.2
+  device_info_plus: ^10.1.0
+  flutter_secure_storage: ^9.0.0
+  flutter_launcher_icons: ^0.14.4
+  file_picker: ^8.0.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/ster_splash.gif
+    - assets/STER.png
+    - assets/images/ster.png
+    - assets/wilayas/
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/app_icon.png"

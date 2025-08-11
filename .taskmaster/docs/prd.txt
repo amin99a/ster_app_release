@@ -1,0 +1,128 @@
+# STER - Car Rental App PRD
+
+## Product Overview
+STER is a comprehensive car rental application built with Flutter that connects car owners (hosts) with renters. The app provides an intuitive interface for browsing, booking, and managing car rentals with a focus on the Algerian market.
+
+## Target Users
+- **Primary**: Individual car renters looking for vehicles
+- **Secondary**: Car owners wanting to rent out their vehicles
+- **Tertiary**: Business users and dealerships
+
+## Core Features
+
+### 1. Home Screen & Navigation
+- Bottom navigation with 4 main sections: Home, Search, Saved, More
+- Browse by destination feature with popular cities and wilayas
+- Recently viewed cars section
+- User-friendly interface with consistent styling
+
+### 2. Search & Filtering System
+- Advanced search functionality with collapsible sidebar
+- Filter options: Wilayas (provinces), Price Range (min/max), Car Type, Brand, Transmission, Energy Type, Mileage
+- Multi-selection support for vehicle types
+- Floating action button that appears on scroll
+- Real-time filter application
+
+### 3. Car Browsing & Selection
+- Grid layout for car listings
+- Car cards with images, pricing, ratings, and key details
+- Detailed car information pages
+- Save/favorite functionality
+- Recently viewed tracking
+
+### 4. User Profile Management
+- User registration and authentication
+- Profile editing with personal information
+- Address and contact details management
+- Profile picture upload capability
+
+### 5. Booking System
+- Booking creation and management
+- Date and time selection
+- Booking status tracking (Active, Completed, Cancelled)
+- Booking history and details
+- Contact host functionality
+
+### 6. Payment System
+- Multiple payment method support (Visa, Mastercard, PayPal)
+- Secure payment processing
+- Payment method management
+- Transaction history
+
+### 7. Host Registration & Management
+- Multi-step host registration process
+- Business type selection (Individual, Business, Dealership)
+- Vehicle type multi-selection
+- Document upload and verification
+- Conditional requirements based on business type
+- Optional vehicle addition (can be done later)
+
+### 8. Legal & Compliance
+- Terms of Service
+- Privacy Policy
+- Legal information
+- User agreement acceptance
+
+### 9. Notifications & Communication
+- Push notifications for bookings
+- In-app messaging system
+- Email notifications
+- Status updates
+
+## Technical Requirements
+
+### Frontend (Flutter)
+- Responsive design for multiple screen sizes
+- Consistent UI/UX across all screens
+- Smooth animations and transitions
+- Offline capability for basic features
+- Image caching and optimization
+
+### Backend Integration
+- RESTful API integration
+- Real-time data synchronization
+- Secure authentication
+- File upload for documents and images
+- Payment gateway integration
+
+### Performance Requirements
+- Fast app startup (< 3 seconds)
+- Smooth scrolling and navigation
+- Efficient image loading
+- Minimal battery usage
+- Low data consumption
+
+## User Experience Goals
+
+### Accessibility
+- Support for screen readers
+- High contrast mode
+- Scalable text sizes
+- Keyboard navigation support
+
+### Localization
+- Arabic and French language support
+- Algerian currency (DZD) display
+- Local date/time formats
+- Regional payment methods
+
+### Security
+- Secure user authentication
+- Encrypted data transmission
+- Secure payment processing
+- Privacy protection compliance
+
+## Success Metrics
+- User registration and retention rates
+- Booking completion rates
+- User satisfaction scores
+- App store ratings
+- Revenue per user
+
+## Future Enhancements
+- AI-powered car recommendations
+- Advanced analytics dashboard
+- Social features and reviews
+- Integration with insurance providers
+- Fleet management for businesses
+- Mobile wallet integration 

@@ -1,0 +1,188 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Test All Navigation Flows",
+        "description": "Verify that all screen transitions work correctly, including the bottom navigation, search screen navigation, and all new screens (Profile, My Bookings, Payment Methods, Legal & Privacy, Terms of Service, Become a Host).",
+        "details": "Test the complete user journey from home screen through all major features. Ensure back navigation works properly and no screens get stuck.",
+        "testStrategy": "Manual testing on different devices and screen sizes. Test edge cases like rapid navigation and app state changes.",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [],
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "Verify Form Validations",
+        "description": "Test all form validations in the app, especially the Become a Host multi-step form, Profile screen, and any other input forms.",
+        "details": "Ensure all required fields are properly validated, optional fields work correctly, and error messages are displayed appropriately.",
+        "testStrategy": "Test with empty inputs, invalid data, and edge cases. Verify validation messages are user-friendly.",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [],
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "Test Become a Host Multi-Step Form",
+        "description": "Comprehensive testing of the Become a Host form including all steps: Personal Info, Business Info, Vehicle Info (Optional), Documents, and Review.",
+        "details": "Test the conditional logic for business types, multi-selection for vehicle types, country code selection, and all the improvements we made.",
+        "testStrategy": "Test each step individually and as a complete flow. Verify all conditional requirements work correctly.",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [],
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "Add Loading States",
+        "description": "Implement loading states for all async operations throughout the app to improve user experience.",
+        "details": "Add loading indicators for API calls, image loading, form submissions, and navigation transitions.",
+        "testStrategy": "Test with slow network conditions and verify loading states provide good user feedback.",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [],
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "Implement Error Handling",
+        "description": "Add comprehensive error handling for network failures, API errors, and other potential issues.",
+        "details": "Create user-friendly error messages and recovery mechanisms for common error scenarios.",
+        "testStrategy": "Test with network disconnection, invalid API responses, and other error conditions.",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [],
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "Add Unit Tests",
+        "description": "Create unit tests for critical components including form validations, navigation logic, and business logic.",
+        "details": "Focus on testing the search functionality, filter logic, form validations, and data processing functions.",
+        "testStrategy": "Use Flutter's testing framework to create comprehensive test coverage for critical paths.",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [],
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "Optimize Performance",
+        "description": "Optimize the app for better performance, especially for large lists and image loading.",
+        "details": "Implement lazy loading, image caching, and optimize widget rebuilds for better performance.",
+        "testStrategy": "Profile the app on different devices and measure performance metrics.",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [],
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "Add Screen Transitions",
+        "description": "Implement smooth animations and transitions between screens to enhance user experience.",
+        "details": "Add page transitions, hero animations for car images, and micro-interactions throughout the app.",
+        "testStrategy": "Test animations on different devices and ensure they don't impact performance.",
+        "status": "pending",
+        "priority": "low",
+        "dependencies": [],
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "Implement Dark Mode",
+        "description": "Add dark mode support throughout the app with proper theming and color schemes.",
+        "details": "Create a comprehensive theme system that supports both light and dark modes with appropriate colors.",
+        "testStrategy": "Test dark mode on different screens and ensure good contrast and readability.",
+        "status": "pending",
+        "priority": "low",
+        "dependencies": [],
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "Add Accessibility Features",
+        "description": "Implement accessibility features including screen reader support, high contrast mode, and scalable text.",
+        "details": "Add semantic labels, proper focus management, and support for accessibility tools.",
+        "testStrategy": "Test with screen readers and accessibility tools to ensure compliance.",
+        "status": "pending",
+        "priority": "low",
+        "dependencies": [],
+        "subtasks": []
+      },
+      {
+        "id": 11,
+        "title": "Create Onboarding Flow",
+        "description": "Design and implement an onboarding flow for new users to introduce app features.",
+        "details": "Create engaging onboarding screens that explain key features and guide users through initial setup.",
+        "testStrategy": "Test onboarding flow with new users and gather feedback on clarity and effectiveness.",
+        "status": "pending",
+        "priority": "low",
+        "dependencies": [],
+        "subtasks": []
+      },
+      {
+        "id": 12,
+        "title": "Test Different Screen Sizes",
+        "description": "Test the app on various screen sizes and orientations to ensure responsive design.",
+        "details": "Test on phones, tablets, and different aspect ratios to ensure the UI adapts properly.",
+        "testStrategy": "Use Flutter's device testing tools and test on physical devices with different screen sizes.",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [],
+        "subtasks": []
+      },
+      {
+        "id": 13,
+        "title": "Verify Icon Imports",
+        "description": "Check that all icons are properly imported and displayed correctly throughout the app.",
+        "details": "Ensure all Material Icons and custom icons are properly imported and displayed without errors.",
+        "testStrategy": "Systematically check each screen for icon display issues and verify imports.",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [],
+        "subtasks": []
+      },
+      {
+        "id": 14,
+        "title": "Backend Integration Preparation",
+        "description": "Prepare the app for backend integration by setting up API service classes and data models.",
+        "details": "Create service classes for authentication, car data, bookings, and payments. Set up proper data models.",
+        "testStrategy": "Create mock API responses and test the integration points.",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [],
+        "subtasks": []
+      },
+      {
+        "id": 15,
+        "title": "Documentation and Code Review",
+        "description": "Create comprehensive documentation and perform a final code review of all implemented features.",
+        "details": "Document the codebase, create user guides, and ensure code quality and maintainability.",
+        "testStrategy": "Review code for best practices, create documentation, and prepare for deployment.",
+        "status": "pending",
+        "priority": "medium",
+        "dependencies": [],
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "version": "1.0.0",
+      "lastUpdated": "2025-07-30T16:30:00Z",
+      "totalTasks": 15,
+      "completedTasks": 0,
+      "pendingTasks": 15,
+      "created": "2025-08-06T23:41:07.142Z",
+      "description": "Tasks for master context"
+    }
+  },
+  "core-development": {
+    "tasks": [],
+    "metadata": {
+      "created": "2025-08-06T23:41:07.144Z",
+      "updated": "2025-08-06T23:41:07.144Z",
+      "description": "Core development tasks for STER car rental app based on PRD requirements"
+    }
+  }
+}

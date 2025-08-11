@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "car",
+  "info": {
+    "singularName": "cars",
+    "pluralName": "car",
+    "displayName": "cars"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}

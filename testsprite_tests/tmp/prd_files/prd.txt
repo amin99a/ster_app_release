@@ -1,0 +1,136 @@
+1. 🎯 Project Overview
+Ster is a peer-to-peer + agency car rental platform targeting users in Algeria, Tunisia, Morocco, Egypt, and France, allowing:
+
+Tourists to rent vehicles from locals or agencies
+
+Locals to rent cars for personal or business use
+
+Hosts to list, manage, and monetize their cars
+
+Admins to manage listings, transactions, and platform operations
+
+The app is developed in Flutter (cross-platform for iOS, Android, and later Web/Desktop) with Supabase as the backend for authentication, database, storage, and real-time data.
+Payment integrations include Stripe and Paymob, with currency logic tailored to DZD, EUR, and USD.
+
+2. 👥 Target Users
+Guest (Unauthenticated) — Can browse listings but not book.
+
+Customer — Authenticated user who can book cars.
+
+Host — User who can list cars, manage availability, and accept/reject bookings.
+
+Admin — Full platform oversight and moderation.
+
+3. 🧩 Core Features
+✅ Guest Experience
+Browse cars by location, date, category
+
+View car details with limited contact info
+
+Prompt to sign up to book
+
+✅ Customer Features
+Sign up / Log in (Google, Apple, Email)
+
+Search + filter cars by:
+
+Location
+
+Price range
+
+Brand
+
+Transmission type
+
+Fuel type
+
+Book cars with:
+
+100% online payment or 20% deposit (remaining cash on delivery)
+
+View booking history
+
+Manage profile
+
+Rate and review rentals
+
+✅ Host Features
+Become a host (admin approval required)
+
+Add cars (images, specs, availability, pricing)
+
+Manage bookings and availability (calendar sync)
+
+Get notifications for new requests
+
+Modify listings anytime
+
+✅ Admin Features
+Approve/decline cars
+
+Approve host requests
+
+Moderate reviews
+
+Manage disputes and cancellations
+
+4. 💰 Payment Flow
+Payment options:
+
+Full payment online
+
+20% deposit online + 80% in cash upon car pickup
+
+Refunds:
+
+Cancel before 48h → 100% refund
+
+Cancel less than 48h → No deposit refund
+
+Revenue split:
+
+Deposit split between app and host according to policy
+
+5. 🔒 Security & Verification
+ID verification (license, ID card, passport)
+
+Email confirmation (users cannot proceed without it)
+
+GPS verification for drop-off/pick-up
+
+Insurance details (optional)
+
+6. 🔗 Integrations
+Google Maps API — location & map display
+
+Supabase Auth — role-based navigation
+
+Supabase Storage — car images & documents
+
+Stripe/Paymob — payment processing
+
+7. ⚙️ Tech Stack
+Frontend: Flutter
+
+Backend: Supabase
+
+Database: PostgreSQL with RLS
+
+Auth: Supabase (roles: guest, customer, host, admin)
+
+Payments: Stripe / Paymob
+
+Maps: Google Maps API
+
+8. 📌 Next Immediate Tasks
+Fix role-based navigation & dashboard access
+
+Implement verified email gating before app usage
+
+Remove mock data — use real Supabase queries everywhere
+
+Implement 75% height sidebar filter UI
+
+Finalize multi-currency logic (DZD, EUR, USD)
+
+Improve UI for clean, modern floating content blocks

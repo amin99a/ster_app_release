@@ -1,0 +1,581 @@
+[
+  {
+    "id": "TC001",
+    "title": "Guest Access and Car Browsing",
+    "description": "Verify guest users can browse cars by location, date, and category with limited details and are prompted to sign up when trying to book.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Launch the app as a guest user without signing in"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to car browsing section"
+      },
+      {
+        "type": "action",
+        "description": "Filter cars by location, date range, and category"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that cars are displayed with limited details (no booking or host contact info)"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to initiate a booking on a selected car"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify user is prompted to sign up or log in before proceeding"
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "User Sign Up via Social Login and Email Verification",
+    "description": "Ensure customers can sign up using Google and Apple social logins and that email verification gating is enforced before booking.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open the sign-up screen"
+      },
+      {
+        "type": "action",
+        "description": "Sign up with a valid Google account"
+      },
+      {
+        "type": "assertion",
+        "description": "User account is created and email verification prompt is displayed"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to book a car without verifying email"
+      },
+      {
+        "type": "assertion",
+        "description": "Booking is blocked until email verification is complete"
+      },
+      {
+        "type": "action",
+        "description": "Repeat sign up process using Apple login and verify same gating"
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Full Online Booking Payment Flow",
+    "description": "Verify customer can book a car with full online payment via Stripe and Paymob with multi-currency support and receive booking confirmation.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Sign in as a verified customer"
+      },
+      {
+        "type": "action",
+        "description": "Search for a car with valid availability"
+      },
+      {
+        "type": "action",
+        "description": "Select booking dates using the calendar widget"
+      },
+      {
+        "type": "action",
+        "description": "Proceed to payment screen, choose full payment option"
+      },
+      {
+        "type": "action",
+        "description": "Make payment with valid Stripe payment details in local currency"
+      },
+      {
+        "type": "assertion",
+        "description": "Payment is processed successfully, booking status is confirmed"
+      },
+      {
+        "type": "assertion",
+        "description": "Booking appears in customer's booking history"
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Partial Payment (Deposit) Booking Flow and Refund Policy",
+    "description": "Ensure customer can pay 20% deposit online via supported payment methods and the remaining amount on pickup; confirm refund behavior follows cancellation policy.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Sign in as verified customer"
+      },
+      {
+        "type": "action",
+        "description": "Select car and booking dates"
+      },
+      {
+        "type": "action",
+        "description": "Choose 20% deposit payment option at checkout"
+      },
+      {
+        "type": "action",
+        "description": "Complete online deposit payment"
+      },
+      {
+        "type": "assertion",
+        "description": "Booking status reflects deposit paid and balance due on pickup"
+      },
+      {
+        "type": "action",
+        "description": "Cancel booking within eligible refund period"
+      },
+      {
+        "type": "assertion",
+        "description": "Partial refund is processed according to refund policy"
+      },
+      {
+        "type": "action",
+        "description": "Cancel booking outside refund window"
+      },
+      {
+        "type": "assertion",
+        "description": "No refund is issued as per policy"
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Host Application, Approval and Car Listing Management",
+    "description": "Validate that hosts can apply for approval, get approved by admin, then list cars with image uploads, availability calendar management, and modify listings.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Sign up and apply as host"
+      },
+      {
+        "type": "assertion",
+        "description": "Host application is submitted and visible to admin"
+      },
+      {
+        "type": "action",
+        "description": "Admin approves host via admin panel"
+      },
+      {
+        "type": "assertion",
+        "description": "Host receives approval notification and can access host dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Host adds a new car listing including uploading multiple photos"
+      },
+      {
+        "type": "assertion",
+        "description": "Images upload successfully and car appears in host inventory"
+      },
+      {
+        "type": "action",
+        "description": "Host sets availability calendar for the new car"
+      },
+      {
+        "type": "assertion",
+        "description": "Availability dates are saved and reflected in booking system"
+      },
+      {
+        "type": "action",
+        "description": "Host modifies car details and verifies changes"
+      },
+      {
+        "type": "assertion",
+        "description": "Updated car details are saved and shown accurately"
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Admin Moderation: Approve Cars, Host Approval, Review Moderation, Dispute Resolution",
+    "description": "Test admin capabilities to approve new host applications, car listings, moderate user reviews, and resolve disputes or cancellations.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Sign in as admin"
+      },
+      {
+        "type": "action",
+        "description": "Review pending host applications and approve/reject"
+      },
+      {
+        "type": "assertion",
+        "description": "Approved hosts can list cars; rejected hosts cannot"
+      },
+      {
+        "type": "action",
+        "description": "Review pending car listings and approve/reject"
+      },
+      {
+        "type": "assertion",
+        "description": "Only approved cars become searchable and bookable"
+      },
+      {
+        "type": "action",
+        "description": "Review user-submitted reviews flagged for moderation"
+      },
+      {
+        "type": "action",
+        "description": "Approve or delete inappropriate reviews"
+      },
+      {
+        "type": "assertion",
+        "description": "Review visibility updates correctly"
+      },
+      {
+        "type": "action",
+        "description": "Access dispute management dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Resolve a sample dispute and verify resolution updates status"
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Real-Time Chat Messaging and Notifications",
+    "description": "Verify that customers and hosts can exchange messages in real-time with message persistence and receive timely notifications.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Sign in as customer and initiate chat with host"
+      },
+      {
+        "type": "action",
+        "description": "Send a message to the host"
+      },
+      {
+        "type": "assertion",
+        "description": "Host receives message in real-time and notification"
+      },
+      {
+        "type": "action",
+        "description": "Host replies back"
+      },
+      {
+        "type": "assertion",
+        "description": "Customer sees reply instantly"
+      },
+      {
+        "type": "action",
+        "description": "Close and reopen chat screen"
+      },
+      {
+        "type": "assertion",
+        "description": "All chat messages persist and display correctly"
+      },
+      {
+        "type": "action",
+        "description": "Test notification reception when app is in background"
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Favorites System: Add, Remove, and Persist Favorite Cars",
+    "description": "Ensure users can add cars and hosts to favorites lists, remove them, and data persists between sessions.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Sign in as a customer"
+      },
+      {
+        "type": "action",
+        "description": "Save multiple cars and hosts to favorites from browsing and details screens"
+      },
+      {
+        "type": "assertion",
+        "description": "Favorites list updates and reflects additions immediately"
+      },
+      {
+        "type": "action",
+        "description": "Remove an item from favorites"
+      },
+      {
+        "type": "assertion",
+        "description": "Item is removed instantly from favorites list"
+      },
+      {
+        "type": "action",
+        "description": "Log out and log back in"
+      },
+      {
+        "type": "assertion",
+        "description": "Favorites list persists and matches previous session"
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Google Maps Integration and Location-Based Car Search",
+    "description": "Verify location-based car search works accurately using Google Maps and geolocation APIs to find nearby cars.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open browse by destination screen"
+      },
+      {
+        "type": "action",
+        "description": "Allow location permissions"
+      },
+      {
+        "type": "assertion",
+        "description": "User location is detected accurately on map"
+      },
+      {
+        "type": "action",
+        "description": "Search for cars nearby using map and filters"
+      },
+      {
+        "type": "assertion",
+        "description": "Nearby cars are displayed correctly on map and list"
+      },
+      {
+        "type": "action",
+        "description": "Select a car on the map to view details"
+      },
+      {
+        "type": "assertion",
+        "description": "Correct car details and location appear"
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Offline Mode and Data Synchronization",
+    "description": "Test that the app gracefully handles offline scenarios with usable cached data and synchronizes updates when connectivity is restored.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Launch app with active internet connection and browse several features (cars, favorites, bookings)"
+      },
+      {
+        "type": "action",
+        "description": "Disable network connectivity (go offline)"
+      },
+      {
+        "type": "assertion",
+        "description": "Previously accessed data is available and usable"
+      },
+      {
+        "type": "action",
+        "description": "Attempt actions that require network (e.g. new booking)"
+      },
+      {
+        "type": "assertion",
+        "description": "App displays friendly offline error messages and prevents actions"
+      },
+      {
+        "type": "action",
+        "description": "Re-enable network connectivity"
+      },
+      {
+        "type": "assertion",
+        "description": "Pending changes and data synchronize correctly with backend automatically"
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Document Upload and Verification Workflow",
+    "description": "Verify users can upload ID, license, and insurance documents, and that verification status gating is enforced for full platform access.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Sign in as customer or host"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to document upload section"
+      },
+      {
+        "type": "action",
+        "description": "Upload required documents (ID, driver license, insurance) in accepted formats"
+      },
+      {
+        "type": "assertion",
+        "description": "Documents are uploaded successfully and visible in list"
+      },
+      {
+        "type": "assertion",
+        "description": "User cannot complete booking or listing until documents are verified by admin"
+      },
+      {
+        "type": "action",
+        "description": "Admin approves verification via admin panel"
+      },
+      {
+        "type": "assertion",
+        "description": "User gains full access to booking or hosting capabilities post-verification"
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Role-Based Access Control Enforcements",
+    "description": "Ensure that guests, customers, hosts, and admins can only access features authorized for their role with secure token enforcement.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Log in as guest; try to access restricted features like booking or host dashboard"
+      },
+      {
+        "type": "assertion",
+        "description": "Access is denied or redirected to sign up/login"
+      },
+      {
+        "type": "action",
+        "description": "Log in as customer; try to access host dashboard or admin panel"
+      },
+      {
+        "type": "assertion",
+        "description": "Access is denied with proper error or redirect"
+      },
+      {
+        "type": "action",
+        "description": "Log in as host; verify access to host dashboard features; deny admin-only features"
+      },
+      {
+        "type": "assertion",
+        "description": "Host can manage cars/bookings but cannot access admin moderation tools"
+      },
+      {
+        "type": "action",
+        "description": "Log in as admin; verify access to all platform features including moderation"
+      },
+      {
+        "type": "assertion",
+        "description": "Admin has full access with no unauthorized restriction"
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Security: ID Verification and Encrypted Data Storage",
+    "description": "Verify that sensitive user data including uploaded documents and authentication tokens are stored encrypted and that ID verification steps protect rental integrity.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Upload ID verification documents"
+      },
+      {
+        "type": "assertion",
+        "description": "Documents are encrypted on device and while transmitted to backend"
+      },
+      {
+        "type": "action",
+        "description": "Inspect storage to confirm no sensitive info stored in plain text"
+      },
+      {
+        "type": "action",
+        "description": "Test access with invalid or expired authentication tokens"
+      },
+      {
+        "type": "assertion",
+        "description": "Access is denied and token refresh or re-authentication is enforced"
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "Multi-Currency Pricing and Payment Conversion Accuracy",
+    "description": "Ensure pricing and payments reflect correct currency based on user location with accurate real-time conversion rates applied across Stripe and Paymob integrations.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Simulate user location in Algeria and browse car pricing"
+      },
+      {
+        "type": "assertion",
+        "description": "Prices display in Algerian Dinar accurately"
+      },
+      {
+        "type": "action",
+        "description": "Make payment with Stripe using local currency"
+      },
+      {
+        "type": "assertion",
+        "description": "Payment is processed correctly without rounding errors"
+      },
+      {
+        "type": "action",
+        "description": "Repeat flow with user location in France and payment via Paymob"
+      },
+      {
+        "type": "assertion",
+        "description": "Currency conversions and payments process correctly"
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "UI Verification for Filters and Accessibility Features",
+    "description": "Verify UI elements such as filters, floating content blocks, and voice search operate correctly across multiple devices and platforms, meeting accessibility standards.",
+    "category": "ui",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open search screen and apply multiple filters"
+      },
+      {
+        "type": "assertion",
+        "description": "Filter UI updates correctly and results change accordingly"
+      },
+      {
+        "type": "action",
+        "description": "Use voice search to find cars"
+      },
+      {
+        "type": "assertion",
+        "description": "Voice input triggers correct search results"
+      },
+      {
+        "type": "action",
+        "description": "Test floating content blocks for consistency in portrait and landscape modes"
+      },
+      {
+        "type": "assertion",
+        "description": "UI maintains clean, user-friendly layout without overlap or clipping"
+      },
+      {
+        "type": "action",
+        "description": "Verify accessibility features such as screen reader support and keyboard navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "App is usable by users requiring assistive technologies"
+      }
+    ]
+  }
+]

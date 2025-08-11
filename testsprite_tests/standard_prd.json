@@ -1,0 +1,359 @@
+{
+  "meta": {
+    "project": "Ster Peer-to-Peer Car Rental Platform",
+    "date": "2025-08-08",
+    "prepared_by": "Software Development Manager"
+  },
+  "product_overview": "Ster is a cross-platform peer-to-peer and agency car rental mobile application targeting users in Algeria, Tunisia, Morocco, Egypt, and France. It enables tourists and locals to rent vehicles from individual hosts or agencies with an easy-to-use interface, robust real-time booking and payment system, and role-based management for customers, hosts, and admins.",
+  "core_goals": [
+    "Provide a seamless car rental experience for guests, customers, and hosts across multiple regions.",
+    "Support multiple user roles including guest, customer, host, and admin with appropriate access controls.",
+    "Enable comprehensive car listing, searching, booking, and management functionalities.",
+    "Integrate secure payment processing supporting full payments and deposits with refund policies.",
+    "Ensure strong authentication, user verification, and security to protect all platform users.",
+    "Deliver real-time communication and notifications to improve interaction and booking management.",
+    "Offer multi-currency support and localization for various geographies including Algeria, Tunisia, Morocco, Egypt, and France."
+  ],
+  "key_features": [
+    "Role-based authentication system with social login (Google, Apple) and guest browsing mode.",
+    "Comprehensive car management including listing, searching with filters, photo uploads, and availability tracking.",
+    "Full booking lifecycle with calendar-based date selection, booking history, status tracking, and partial payment options.",
+    "Stripe and Paymob payment integration supporting multiple currencies and secure transactions.",
+    "Real-time chat messaging system with notifications for user communication.",
+    "Favorites system for users to save and manage preferred cars and hosts.",
+    "Google Maps integration for location-based car search and rental logistics.",
+    "Host dashboard for managing car inventory, booking requests, and performance statistics.",
+    "Document upload and verification for ID, license, and insurance information for secure rentals.",
+    "Robust admin panel to approve hosts, cars, moderate reviews, and handle disputes and cancellations.",
+    "Network connectivity management with offline capabilities and data synchronization.",
+    "Multi-language support and accessibility including voice search.",
+    "Security, audit, and error logging services to maintain platform integrity."
+  ],
+  "user_flow_summary": [
+    "Guests browse cars by location, date, and category with limited detail and prompted to sign up for booking.",
+    "Customers sign up via Google, Apple, or email, search/filter cars, book with full or partial online payment, view booking history, and rate rentals.",
+    "Hosts apply and get approval from admin to list cars, manage availability, accept or reject bookings, and modify listings anytime.",
+    "Admins approve hosts and cars, moderate content such as reviews, manage disputes and cancellations, and oversee platform-wide operations.",
+    "Payment flow includes payment options for full online payment or 20% deposit with the remainder paid on pickup, and refund policy based on cancellation timing.",
+    "Users complete identity verification with documents and email confirmation gated before full access.",
+    "Real-time chats and notifications notify users of booking requests, changes, and customer-host communications.",
+    "Location-based services allow users to search cars nearby using Google Maps and integrated geolocation APIs."
+  ],
+  "validation_criteria": [
+    "All user roles (guest, customer, host, admin) must be able to access their appropriate features with secure role enforcement.",
+    "Booking processes must handle both full online payments and deposit payment flows correctly, including refunds per policy.",
+    "Authentication must support social login and guest modes, enforcing email verification before bookings.",
+    "Car listing management includes image upload, availability calendar management, and search filtering accuracy.",
+    "Hosts must have a functional dashboard to manage their cars, bookings, and view statistics in real time.",
+    "Admin moderation tools must allow approving hosts and cars, moderating reviews, and dispute resolution.",
+    "Real-time chat and notification features must deliver timely messages and alerts to users.",
+    "Location services, including Google Maps and geolocation, must accurately display nearby cars and user locations.",
+    "The application must handle offline scenarios gracefully, syncing data once connectivity restores.",
+    "Multi-currency pricing and payment processing must work correctly based on user location and preferences.",
+    "Security features including ID verification, GPS verification, and encrypted data storage must be implemented and tested.",
+    "UI must reflect the finalized design for filters, floating content blocks, and maintain a clean user experience across all devices and platforms."
+  ],
+  "code_summary": {
+    "tech_stack": [
+      "Dart",
+      "Flutter",
+      "Supabase",
+      "Strapi",
+      "SQLite",
+      "TypeScript",
+      "Node.js",
+      "React",
+      "Google Maps",
+      "Stripe",
+      "Firebase",
+      "HTTP",
+      "SharedPreferences",
+      "Image Picker",
+      "URL Launcher",
+      "Share Plus",
+      "App Links",
+      "Geolocator",
+      "Geocoding",
+      "Table Calendar",
+      "Flutter Local Notifications",
+      "Permission Handler",
+      "Flutter Stripe",
+      "Connectivity Plus",
+      "Device Info Plus",
+      "Flutter Secure Storage",
+      "Crypto",
+      "Path",
+      "Intl",
+      "Package Info Plus",
+      "Google Fonts",
+      "Lucide Icons",
+      "Cached Network Image",
+      "Provider",
+      "Sign In With Apple"
+    ],
+    "features": [
+      {
+        "name": "Authentication System",
+        "description": "Complete authentication system with Supabase integration, social login (Apple, Google), guest mode, role-based access control, and secure token management",
+        "files": [
+          "lib/services/auth_service.dart",
+          "lib/services/social_auth_service.dart",
+          "lib/screens/login_screen.dart",
+          "lib/screens/signup_screen.dart",
+          "lib/screens/forgot_password_screen.dart",
+          "lib/screens/forgetpassword_screen.dart",
+          "lib/guards/",
+          "lib/models/User.dart",
+          "lib/models/UserProfile.dart"
+        ]
+      },
+      {
+        "name": "Car Management System",
+        "description": "Comprehensive car listing, search, filtering, and management system with image upload, availability tracking, and host management",
+        "files": [
+          "lib/services/car_service.dart",
+          "lib/services/host_service.dart",
+          "lib/services/image_upload_service.dart",
+          "lib/services/image_loading_service.dart",
+          "lib/screens/add_new_car_screen.dart",
+          "lib/screens/my_cars_screen.dart",
+          "lib/screens/car_details_screen.dart",
+          "lib/screens/search_screen.dart",
+          "lib/models/Car.dart",
+          "lib/models/TopHost.dart",
+          "lib/widgets/car_card.dart",
+          "lib/widgets/home_car_card.dart",
+          "lib/widgets/full_screen_gallery.dart"
+        ]
+      },
+      {
+        "name": "Booking System",
+        "description": "Complete booking management with date selection, payment processing, booking history, and status tracking",
+        "files": [
+          "lib/services/booking_service.dart",
+          "lib/services/payment_service.dart",
+          "lib/screens/car_booking_screen.dart",
+          "lib/screens/booking_summary_screen.dart",
+          "lib/screens/my_bookings_screen.dart",
+          "lib/models/Booking.dart",
+          "lib/models/Payment.dart",
+          "lib/widgets/date_picker_widget.dart"
+        ]
+      },
+      {
+        "name": "Payment Integration",
+        "description": "Stripe payment integration with multiple payment methods, currency conversion, and secure transaction processing",
+        "files": [
+          "lib/services/payment_service.dart",
+          "lib/services/currency_service.dart",
+          "lib/screens/payment_methods_screen.dart",
+          "lib/utils/price_formatter.dart",
+          "lib/models/Payment.dart",
+          "lib/models/Transaction.dart"
+        ]
+      },
+      {
+        "name": "Real-time Messaging",
+        "description": "Chat system with real-time messaging, message persistence, and notification system",
+        "files": [
+          "lib/services/messaging_service.dart",
+          "lib/services/chat_service.dart",
+          "lib/services/notification_service.dart",
+          "lib/services/push_notification_service.dart",
+          "lib/screens/chat_detail_screen.dart",
+          "lib/models/ChatMessage.dart",
+          "lib/models/Notification.dart"
+        ]
+      },
+      {
+        "name": "Favorites and Saved Items",
+        "description": "User favorites system with lists, saved cars, and persistent storage",
+        "files": [
+          "lib/services/favorite_service.dart",
+          "lib/services/view_history_service.dart",
+          "lib/screens/saved_screen.dart",
+          "lib/screens/favorite_list_details_screen.dart",
+          "lib/widgets/favorite_list_card.dart",
+          "lib/widgets/save_to_favorites_modal.dart",
+          "lib/widgets/heart_icon.dart",
+          "lib/models/FavoriteList.dart",
+          "lib/models/ViewHistory.dart"
+        ]
+      },
+      {
+        "name": "Location and Maps",
+        "description": "Location-based services with Google Maps integration, geolocation, and nearby car search",
+        "files": [
+          "lib/services/location_service.dart",
+          "lib/screens/browse_by_destination.dart",
+          "lib/utils/location_utils.dart",
+          "lib/models/Location.dart"
+        ]
+      },
+      {
+        "name": "Search and Discovery",
+        "description": "Advanced search functionality with filters, recommendations, and discovery features",
+        "files": [
+          "lib/services/search_service.dart",
+          "lib/services/advanced_search_service.dart",
+          "lib/services/recommendation_service.dart",
+          "lib/services/search_cache_service.dart",
+          "lib/screens/search_screen.dart",
+          "lib/screens/browse_by_destination.dart"
+        ]
+      },
+      {
+        "name": "Host Dashboard",
+        "description": "Host management dashboard with car management, booking overview, and statistics",
+        "files": [
+          "lib/screens/host_dashboard_screen.dart",
+          "lib/screens/become_host_screen.dart",
+          "lib/services/host_service.dart",
+          "lib/models/HostStats.dart"
+        ]
+      },
+      {
+        "name": "Document Management",
+        "description": "Document upload, verification, and management system for user verification and rental requirements",
+        "files": [
+          "lib/services/document_service.dart",
+          "lib/models/Document.dart"
+        ]
+      },
+      {
+        "name": "Dispute Resolution",
+        "description": "Dispute management system for handling rental conflicts and issues",
+        "files": [
+          "lib/services/dispute_service.dart",
+          "lib/models/Dispute.dart"
+        ]
+      },
+      {
+        "name": "Insurance Management",
+        "description": "Insurance tracking and management for rental vehicles",
+        "files": [
+          "lib/services/insurance_service.dart",
+          "lib/models/Insurance.dart"
+        ]
+      },
+      {
+        "name": "Review and Rating System",
+        "description": "User review and rating system for cars and hosts",
+        "files": [
+          "lib/services/review_service.dart",
+          "lib/models/Review.dart"
+        ]
+      },
+      {
+        "name": "Availability Management",
+        "description": "Car availability tracking and calendar management",
+        "files": [
+          "lib/services/availability_service.dart",
+          "lib/models/Availability.dart"
+        ]
+      },
+      {
+        "name": "Rental Management",
+        "description": "Complete rental lifecycle management from booking to completion",
+        "files": [
+          "lib/services/rental_service.dart",
+          "lib/models/Rental.dart"
+        ]
+      },
+      {
+        "name": "Settings and Preferences",
+        "description": "User settings, preferences, and app configuration management",
+        "files": [
+          "lib/services/settings_service.dart",
+          "lib/screens/more_screen.dart",
+          "lib/screens/terms_of_service_screen.dart",
+          "lib/screens/legal_privacy_screen.dart"
+        ]
+      },
+      {
+        "name": "Network and Offline Support",
+        "description": "Network connectivity management, offline storage, and data synchronization",
+        "files": [
+          "lib/services/network_service.dart",
+          "lib/services/offline_storage_service.dart",
+          "lib/services/connectivity_service.dart"
+        ]
+      },
+      {
+        "name": "Performance and Monitoring",
+        "description": "Performance optimization, error logging, and app monitoring",
+        "files": [
+          "lib/services/performance_service.dart",
+          "lib/services/performance_optimization_service.dart",
+          "lib/services/error_logging_service.dart",
+          "lib/services/error_handling_service.dart",
+          "lib/services/logging_service.dart"
+        ]
+      },
+      {
+        "name": "Security and Audit",
+        "description": "Security auditing, data protection, and compliance features",
+        "files": [
+          "lib/services/security_audit_service.dart",
+          "lib/services/context_tracking_service.dart",
+          "lib/services/activity_service.dart"
+        ]
+      },
+      {
+        "name": "Localization and Internationalization",
+        "description": "Multi-language support and localization features",
+        "files": [
+          "lib/services/localization_service.dart",
+          "lib/utils/localization_utils.dart"
+        ]
+      },
+      {
+        "name": "Deep Linking and Sharing",
+        "description": "Deep link handling, content sharing, and URL management",
+        "files": [
+          "lib/services/deep_link_service.dart",
+          "lib/services/share_service.dart",
+          "lib/services/transition_service.dart"
+        ]
+      },
+      {
+        "name": "Voice and Accessibility",
+        "description": "Voice search capabilities and accessibility features",
+        "files": [
+          "lib/services/voice_search_service.dart",
+          "lib/utils/accessibility_utils.dart"
+        ]
+      },
+      {
+        "name": "UI Components and Widgets",
+        "description": "Reusable UI components, custom widgets, and design system",
+        "files": [
+          "lib/widgets/",
+          "lib/screens/",
+          "lib/theme.dart",
+          "lib/utils/ui_utils.dart"
+        ]
+      },
+      {
+        "name": "Backend API (Strapi)",
+        "description": "Strapi-based backend with RESTful APIs for all major features",
+        "files": [
+          "ster-backend/src/api/",
+          "ster-backend/src/controllers/",
+          "ster-backend/src/models/",
+          "ster-backend/src/services/",
+          "ster-backend/API_DOCUMENTATION.md"
+        ]
+      },
+      {
+        "name": "Database and Data Management",
+        "description": "Database schema, migrations, and data management utilities",
+        "files": [
+          "*.sql",
+          "lib/services/supabase_service.dart",
+          "lib/services/demo_data_service.dart"
+        ]
+      }
+    ]
+  }
+}
