@@ -1,87 +1,12 @@
 workflows:
-  ios-workflow:
-    name: iOS Workflow
+  ios-release-no-shorebird:
+    name: iOS Release
     environment:
       flutter: stable
       xcode: latest
-      cocoapods: default
-      vars:
-        XCODE_PROJECT: "ios/Runner.xcworkspace"
-        XCODE_SCHEME: "Runner"
-        BUNDLE_ID: "com.example.sterApp"
     scripts:
-      - name: Get Flutter packages
-        script: flutter pub get
-      - name: Flutter build ipa
-        script: |
-          flutter build ipa --release
+      - flutter build ios --simulator
+      - mkdir -p build/ios/ipa
+      - zip -r build/ios/ipa/Runner.app.zip build/ios/iphonesimulator/Runner.app
     artifacts:
-      - build/ios/ipa/*.ipa
-      - /tmp/xcodebuild_logs/*.log
-      - flutter_drive.log
-    publishing:
-      app_store_connect:
-        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
-        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
-        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
-        submit_to_testflight: true
-
-  android-workflow:
-    name: Android Workflow
-    environment:
-      flutter: stable
-      android_signing:
-        - keystore_reference
-      vars:
-        PACKAGE_NAME: "com.example.ster_app"
-    scripts:
-      - name: Set up keystore
-        script: |
-          echo $CM_KEYSTORE_PATH | base64 --decode > /tmp/keystore.keystore
-          echo "storeFile=/tmp/keystore.keystore" >> android/key.properties
-          echo "storePassword=$CM_KEYSTORE_PASSWORD" >> android/key.properties
-          echo "keyAlias=$CM_KEY_ALIAS" >> android/key.properties
-          echo "keyPassword=$CM_KEY_PASSWORD" >> android/key.properties
-      - name: Get Flutter packages
-        script: flutter pub get
-      - name: Flutter build apk
-        script: flutter build apk --release
-      - name: Flutter build app bundle
-        script: flutter build appbundle --release
-    artifacts:
-      - build/**/outputs/**/*.apk
-      - build/**/outputs/**/mapping.txt
-      - flutter_drive.log
-    publishing:
-      google_play:
-        credentials: $GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS
-        track: internal
-        submit_as_draft: true
-
-  test-workflow:
-    name: Test Workflow
-    environment:
-      flutter: stable
-    scripts:
-      - name: Get Flutter packages
-        script: flutter pub get
-      - name: Run tests
-        script: flutter test
-    artifacts:
-      - test/**/coverage/**/*
-      - flutter_drive.log
-
-  build-workflow:
-    name: Build Workflow
-    environment:
-      flutter: stable
-    scripts:
-      - name: Get Flutter packages
-        script: flutter pub get
-      - name: Flutter analyze
-        script: flutter analyze
-      - name: Flutter build web
-        script: flutter build web
-    artifacts:
-      - build/web/**/*
-      - flutter_drive.log
+      - build/ios/ipa/Runner.app.zip
