@@ -190,17 +190,33 @@ class CarService extends ChangeNotifier {
       operationFunction: () async {
         try {
           logger.info('Adding new car: ${car.name}', tag: 'CAR_SERVICE');
+          // Log exact payload to verify arrays like images/features are present
+          final payload = car.toJson();
+          logger.debug('Insert payload: ' + payload.toString(), tag: 'CAR_SERVICE');
+
           final response = await Supabase.instance.client
               .from('cars')
-              .insert(car.toJson())
+              .insert(payload)
               .select()
               .single();
 
           logger.info('Successfully added car: ${car.name}', tag: 'CAR_SERVICE');
-          await _loadCars(); // Refresh the list
+          // Sanity log for images
+          try {
+            logger.debug('Inserted row images: ' + (response['images']?.toString() ?? 'null'), tag: 'CAR_SERVICE');
+          } catch (_) {}
+
+          // Try to refresh the list but do not fail the insert result if reload fails
+          try {
+            await _loadCars();
+          } catch (reloadError, reloadStack) {
+            logger.logError('Reloading cars after insert', reloadError, tag: 'CAR_SERVICE', stackTrace: reloadStack);
+          }
+
           return true;
         } catch (e, stackTrace) {
           logger.logError('Adding car', e, tag: 'CAR_SERVICE', stackTrace: stackTrace);
+          // Propagate failure to caller
           return false;
         }
       },
@@ -342,7 +358,7 @@ class CarService extends ChangeNotifier {
   }
 
   // Get all cars with context tracking
-  Future<List<Car>?> getCars() async {
+  Future<List<Car>?> getCars({int limit = 20, int offset = 0}) async {
     return await _contextAware.executeWithContext(
       operation: 'getCars',
       service: 'CarService',
@@ -353,7 +369,8 @@ class CarService extends ChangeNotifier {
               .from('cars')
               .select()
               .eq('available', true)
-              .order('created_at', ascending: false);
+              .order('created_at', ascending: false)
+              .range(offset, offset + limit - 1);
 
           logger.info('Successfully loaded ${response.length} cars', tag: 'CAR_SERVICE');
           return (response as List).map((json) => Car.fromJson(json)).toList();
@@ -364,6 +381,8 @@ class CarService extends ChangeNotifier {
       },
       metadata: {
         'operation': 'get_all_cars',
+        'limit': limit,
+        'offset': offset,
       },
     );
   }
