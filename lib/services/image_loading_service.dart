@@ -86,10 +86,7 @@ class ImageLoadingService {
     VoidCallback? onLoadComplete,
     VoidCallback? onLoadError,
   }) {
-    // Check if image previously failed
-    if (_failedImages.contains(imagePath)) {
-      return errorWidget ?? _buildDefaultErrorWidget(width, height);
-    }
+    // Previously we skipped retrying failed URLs. Allow retries to recover from transient errors or permission changes.
 
     return ClipRRect(
       borderRadius: borderRadius ?? BorderRadius.zero,
@@ -100,13 +97,11 @@ class ImageLoadingService {
         fit: fit,
         fadeInDuration: enableFadeIn ? fadeInDuration : Duration.zero,
         errorWidget: (context, url, error) {
-          // Track failed loads
-          _failedImages.add(imagePath);
           _trackLoadError(imagePath);
           onLoadError?.call();
-          
           return errorWidget ?? _buildDefaultErrorWidget(width, height);
         },
+        httpHeaders: _getDefaultHeaders(),
         memCacheWidth: width.isFinite ? (width * 2).round() : null,
         memCacheHeight: height.isFinite ? (height * 2).round() : null,
         maxWidthDiskCache: width.isFinite ? (width * 2).round() : null,
