@@ -407,7 +407,7 @@ class AuthService extends ChangeNotifier {
       
       await supa.Supabase.instance.client.auth.signInWithOAuth(
         supa.OAuthProvider.google,
-        redirectTo: 'io.supabase.flutter://login-callback/',
+        redirectTo: 'ster://login-callback/',
         authScreenLaunchMode: LaunchMode.externalApplication,
       );
       
@@ -438,7 +438,7 @@ class AuthService extends ChangeNotifier {
       
       await supa.Supabase.instance.client.auth.signInWithOAuth(
         supa.OAuthProvider.apple,
-        redirectTo: 'io.supabase.flutter://login-callback/',
+        redirectTo: 'ster://login-callback/',
         authScreenLaunchMode: LaunchMode.externalApplication,
       );
       
