@@ -10,6 +10,7 @@ import '../widgets/animated_widgets.dart';
 import '../utils/animations.dart';
 import '../models/booking.dart' as booking_model;
 import 'booking_summary_screen.dart';
+import '../services/context_aware_service.dart';
 
 class EnhancedBookingConfirmationScreen extends StatefulWidget {
   final Car car;
@@ -82,6 +83,21 @@ class _EnhancedBookingConfirmationScreenState extends State<EnhancedBookingConfi
     });
 
     try {
+      // Track start_booking
+      try {
+        ContextAwareService().trackEvent(
+          eventName: 'start_booking',
+          service: 'BookingService',
+          operation: 'create_booking',
+          metadata: {
+            'car_id': widget.car.id,
+            'user_id': Supabase.instance.client.auth.currentUser?.id,
+            'start_date': widget.startDate.toIso8601String(),
+            'end_date': widget.endDate.toIso8601String(),
+          },
+        );
+      } catch (_) {}
+
       final bookingService = Provider.of<BookingService>(context, listen: false);
       final notificationService = Provider.of<NotificationService>(context, listen: false);
 
@@ -122,6 +138,20 @@ class _EnhancedBookingConfirmationScreenState extends State<EnhancedBookingConfi
           message: 'Your booking for ${widget.car.brand} ${widget.car.model} has been confirmed.',
           type: 'booking_confirmation',
         );
+
+        // Track complete_booking
+        try {
+          ContextAwareService().trackEvent(
+            eventName: 'complete_booking',
+            service: 'BookingService',
+            operation: 'create_booking',
+            metadata: {
+              'booking_id': booking.id,
+              'car_id': widget.car.id,
+              'user_id': booking.userId,
+            },
+          );
+        } catch (_) {}
 
         setState(() {
           _createdBooking = bookingModel;
