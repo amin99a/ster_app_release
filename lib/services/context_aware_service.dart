@@ -287,6 +287,18 @@ class ContextAwareService {
       relatedServices: [service],
       metadata: metadata,
     );
+    // Optional: send to Supabase 'analytics' table if exists
+    try {
+      Supabase.instance.client
+          .from('analytics')
+          .insert({
+            'event_name': eventName,
+            'service': service,
+            'operation': operation,
+            'metadata': metadata,
+            'created_at': DateTime.now().toIso8601String(),
+          });
+    } catch (_) {}
   }
 
   // ==================== PATTERN SUGGESTION ====================
