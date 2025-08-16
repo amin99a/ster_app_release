@@ -7,6 +7,7 @@ import '../services/auth_service.dart';
 import '../widgets/floating_header.dart';
 import '../widgets/host_request_details_modal.dart';
 import '../widgets/host_request_card.dart';
+import '../services/context_aware_service.dart';
 
 class AdminHostApprovalScreen extends StatefulWidget {
   const AdminHostApprovalScreen({super.key});
@@ -75,6 +76,20 @@ class _AdminHostApprovalScreenState extends State<AdminHostApprovalScreen>
       );
 
       if (success) {
+        // Track host_request_decision: approved
+        try {
+          ContextAwareService().trackEvent(
+            eventName: 'host_request_decision',
+            service: 'HostService',
+            operation: 'approve_host_request',
+            metadata: {
+              'request_id': request.id,
+              'decision': 'approved',
+              'user_id': request.userId,
+              'admin_id': currentUser.id,
+            },
+          );
+        } catch (_) {}
         _showSnackBar('Host request approved successfully', Colors.green);
       } else {
         _showSnackBar('Failed to approve host request', Colors.red);
@@ -100,6 +115,21 @@ class _AdminHostApprovalScreenState extends State<AdminHostApprovalScreen>
       );
 
       if (success) {
+        // Track host_request_decision: rejected
+        try {
+          ContextAwareService().trackEvent(
+            eventName: 'host_request_decision',
+            service: 'HostService',
+            operation: 'reject_host_request',
+            metadata: {
+              'request_id': request.id,
+              'decision': 'rejected',
+              'user_id': request.userId,
+              'admin_id': currentUser.id,
+              'reason': reason,
+            },
+          );
+        } catch (_) {}
         _showSnackBar('Host request rejected', Colors.orange);
       } else {
         _showSnackBar('Failed to reject host request', Colors.red);
