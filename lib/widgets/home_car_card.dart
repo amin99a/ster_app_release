@@ -31,7 +31,7 @@ class HomeCarCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final cardWidth = width ?? screenWidth * 0.375;
-    final cardHeight = height ?? screenWidth * 0.1; // Minimal height for compact design
+    final cardHeight = height ?? screenWidth * 0.8; // Match Home usage height for consistency
 
     return GestureDetector(
       onTap: onTap ?? () {
@@ -73,7 +73,7 @@ class HomeCarCard extends StatelessWidget {
                   child: Hero(
                     tag: 'home_car_${car.id}',
                     child: ImageLoadingService.loadImage(
-                      imagePath: car.image,
+                      imagePath: car.image.contains('via.placeholder.com') ? '' : car.image,
                       width: double.infinity,
                       height: cardHeight * 0.45, // Increased to 45% for better image proportion
                       fit: BoxFit.cover,
