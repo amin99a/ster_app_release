@@ -772,3 +772,16 @@ After implementation, your app will have:
 - ✅ **Profile management** with real-time updates
 
 **Your authentication layer is now fully integrated and secure!** 🚀 
+
+---
+
+## 🔁 Redirect URLs (Mobile & Web)
+
+Update your Supabase Dashboard → Auth → URL Configuration:
+
+- Site URL: https://ster-app.com (and https://www.ster-app.com if applicable)
+- Additional Redirect URLs: ster://login-callback
+
+Mobile deep links:
+- Android: AndroidManifest.xml includes an intent-filter for `ster://login-callback`.
+- iOS: Info.plist CFBundleURLSchemes includes `ster`.
