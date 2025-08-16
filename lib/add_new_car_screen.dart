@@ -1168,17 +1168,26 @@ class _AddNewCarScreenState extends State<AddNewCarScreen> {
         });
 
         final File imageFile = _selectedImages[i];
-        final String fileName = '${DateTime.now().millisecondsSinceEpoch}_${path.basename(imageFile.path)}';
-        final String filePath = fileName; // Remove the 'cars/' prefix
+        final String original = path.basename(imageFile.path);
+        final String ext = original.split('.').last.toLowerCase();
+        final String contentType =
+            ext == 'png' ? 'image/png' : ext == 'webp' ? 'image/webp' : 'image/jpeg';
+        final String fileName = '${DateTime.now().millisecondsSinceEpoch}_$original';
+        // Use a folder to match common storage policies (cars/ prefix)
+        final String filePath = 'cars/$fileName';
 
-        print('📤 Attempting to upload: $fileName to bucket: car-images');
+        print('📤 Attempting to upload: $filePath to bucket: car-images (ct=$contentType)');
 
-        // Upload to Supabase Storage
+        final bytes = await imageFile.readAsBytes();
+
         await supabase.storage
             .from('car-images')
-            .upload(filePath, imageFile);
+            .uploadBinary(
+              filePath,
+              bytes,
+              fileOptions: FileOptions(contentType: contentType, upsert: true),
+            );
 
-        // Get public URL
         final String publicUrl = supabase.storage
             .from('car-images')
             .getPublicUrl(filePath);
@@ -1220,22 +1229,18 @@ class _AddNewCarScreenState extends State<AddNewCarScreen> {
     });
 
     try {
-      // Check if user is authenticated
+      // Check if user is authenticated with Supabase (required for RLS policy)
       final currentUser = Supabase.instance.client.auth.currentUser;
       final authService = Provider.of<AuthService>(context, listen: false);
       final appUser = authService.currentUser;
-      
-      if (currentUser == null && appUser == null) {
-        _showErrorSnackBar('Please sign in to add a car');
+
+      if (currentUser == null) {
+        _showErrorSnackBar('Please sign in to add a car (Supabase session required)');
         return;
       }
 
-      // Use the authenticated user ID
-      final userId = currentUser?.id ?? appUser?.id;
-      if (userId == null) {
-        _showErrorSnackBar('Unable to get user ID');
-        return;
-      }
+      // Use Supabase user ID to satisfy RLS: auth.uid() = host_id
+      final userId = currentUser.id;
 
       print('🔐 Using user ID: $userId');
       print('👤 User from Supabase: ${currentUser?.email}');
@@ -1281,12 +1286,16 @@ class _AddNewCarScreenState extends State<AddNewCarScreen> {
         print('📊 Upload results: ${uploadedImageUrls.length} images uploaded');
       } catch (uploadError) {
         print('❌ Image upload failed: $uploadError');
-        // Fallback: use placeholder images if upload fails
-        uploadedImageUrls = [
-          'https://via.placeholder.com/400x300/353935/FFFFFF?text=Car+Image',
-          'https://via.placeholder.com/400x300/353935/FFFFFF?text=Car+Image+2',
-        ];
-        print('🔄 Using fallback placeholder images');
+        // Abort submit instead of inserting unreachable network placeholders
+        if (mounted) {
+          Navigator.of(context).pop(); // close loading dialog
+          _showErrorSnackBar('Image upload failed. Please check your connection or storage policies.');
+          setState(() {
+            _isSubmitting = false;
+            _uploadProgress = 0.0;
+          });
+        }
+        return;
       }
       
       if (uploadedImageUrls.isEmpty) {
@@ -1294,21 +1303,26 @@ class _AddNewCarScreenState extends State<AddNewCarScreen> {
       }
 
       // Prepare car data for database - matching your actual schema
+      final List<String> imagesArray = List<String>.from(uploadedImageUrls);
+      final List<String> featuresArray = List<String>.from(_selectedFeatures);
       final carData = {
         'name': _selectedBrand + ' ' + _modelController.text,
         'image': uploadedImageUrls.isNotEmpty ? uploadedImageUrls.first : '',
         'price': double.parse(_priceController.text),
+        'price_per_day': double.parse(_priceController.text),
         'category': _selectedCategory,
         'rating': 0.0,
         'trips': 0,
         'location': _selectedWilaya,
         'host_name': currentUser?.userMetadata?['name'] ?? 'Current User', // Use actual user name
-        'host_image': 'https://via.placeholder.com/150',
+        // Avoid network placeholder; leave empty if not available
+        'host_image': '',
         'host_rating': 0.0,
         'response_time': 'Within 1 hour',
         'description': _descriptionController.text,
-        'features': _selectedFeatures, // This will be converted to JSONB by Supabase
-        'images': uploadedImageUrls, // Use uploaded image URLs
+        // DB columns are ARRAY; ensure we pass Dart List<String>
+        'features': featuresArray,
+        'images': imagesArray,
         'host_id': userId, // Use the correct user ID
         'specs': {
           'engine': _motorisationController.text,
@@ -1325,6 +1339,9 @@ class _AddNewCarScreenState extends State<AddNewCarScreen> {
           'maxRentalDays': int.tryParse(_maxDaysController.text) ?? int.tryParse(_selectedMaxDays) ?? 30,
         },
         'available': true,
+        'is_available': true,
+        'featured': false,
+        'is_featured': false,
         'transmission': _selectedTransmission.toLowerCase(), // Must be 'manual' or 'automatic'
         'fuel_type': _selectedEnergie.toLowerCase(), // Must be 'essence', 'diesel', 'gpl', or 'electric'
         'passengers': int.parse(_selectedSeats),
