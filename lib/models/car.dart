@@ -134,20 +134,21 @@ class Car {
       }
     }
 
-    // Handle images array - ensure it's always a List<String>
+    // Handle images array - support Postgres ARRAY (List<dynamic>) or JSON string
     List<String> images = [];
     if (json['images'] != null) {
-      if (json['images'] is List) {
-        images = (json['images'] as List).map((item) => item.toString()).toList();
-      } else if (json['images'] is String) {
-        // Handle case where images might be a JSON string
+      final val = json['images'];
+      if (val is List) {
+        images = val.map((item) => item.toString()).toList();
+      } else if (val is String) {
         try {
-          final parsed = jsonDecode(json['images']);
+          final parsed = jsonDecode(val);
           if (parsed is List) {
             images = parsed.map((item) => item.toString()).toList();
           }
-        } catch (e) {
-          images = [];
+        } catch (_) {
+          // If the string is not JSON, treat it as single image
+          images = [val];
         }
       }
     }
@@ -260,11 +261,33 @@ class Car {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
+    // Normalize price: try to store numeric when possible
+    dynamic normalizedPrice;
+    if (price.isNotEmpty) {
+      // If pure number string, parse to num
+      final numValue = num.tryParse(price);
+      if (numValue != null) {
+        normalizedPrice = numValue;
+      } else {
+        // Extract first number (supports decimals) from strings like "UK£120 total"
+        final match = RegExp(r"[-+]?[0-9]*\.?[0-9]+").firstMatch(price);
+        if (match != null) {
+          final parsed = num.tryParse(match.group(0) ?? '');
+          normalizedPrice = parsed ?? price;
+        } else {
+          normalizedPrice = price;
+        }
+      }
+    }
+
+    final Map<String, dynamic> data = {
+      // Only include id if it is not empty; let DB generate when blank
+      if (id.isNotEmpty) 'id': id,
       'name': name,
       'image': image,
+      // Always keep string representation for flexible schemas; also provide numeric per-day
       'price': price,
+      'price_per_day': normalizedPrice ?? num.tryParse(price) ?? 0,
       'category': category,
       'rating': rating,
       'trips': trips,
@@ -277,9 +300,10 @@ class Car {
       'features': features,
       'images': images,
       'specs': specs,
-      'requirements': requirements,
-      'pickup_locations': pickupLocations,
-      'dropoff_locations': dropoffLocations,
+      // Do NOT include app-only fields not present in DB schema
+      // Align with DB column naming used by policies; also include legacy flags if present
+      'available': isAvailable,
+      'featured': isFeatured,
       'is_available': isAvailable,
       'is_featured': isFeatured,
       'transmission': transmission,
@@ -304,8 +328,11 @@ class Car {
       'created_at': createdAt?.toIso8601String(),
       'review_count': reviewCount,
       'is_favorite': isFavorite,
-      'use_type': useType.name,
     };
+
+    // Remove null values to avoid inserting unknown or null columns explicitly
+    data.removeWhere((key, value) => value == null);
+    return data;
   }
 
   Car copyWith({
