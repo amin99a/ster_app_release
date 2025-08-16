@@ -1,4 +1,6 @@
 # ios/Podfile
+# Using Flutter's modern CocoaPods setup (flutter_ios_podfile_setup + flutter_install_all_ios_pods)
+# Do not modify unless required for a specific plugin issue. Document any change at the top.
 platform :ios, '14.0'
 
 # If you need dynamic frameworks, change to :dynamic. Static works for most Flutter plugins.
