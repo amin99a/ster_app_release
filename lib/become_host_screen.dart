@@ -14,6 +14,7 @@ import 'models/host_request.dart';
 import 'widgets/floating_header.dart';
 import 'widgets/document_upload_tile.dart';
 import 'services/host_document_service.dart';
+import 'services/context_aware_service.dart';
 
 class BecomeHostScreen extends StatefulWidget {
   const BecomeHostScreen({super.key});
@@ -1809,6 +1810,18 @@ class _BecomeHostScreenState extends State<BecomeHostScreen> {
       // Submit minimal host request via HostService
       final hostService = context.read<HostService>();
       final result = await hostService.submitOrResubmitHostRequest(note: _noteController.text.trim());
+      // Track become_host_submit
+      try {
+        ContextAwareService().trackEvent(
+          eventName: 'become_host_submit',
+          service: 'HostService',
+          operation: 'submitOrResubmitHostRequest',
+          metadata: {
+            'business_type': _selectedBusinessType,
+            'vehicle_types': _selectedVehicleTypes.toList(),
+          },
+        );
+      } catch (_) {}
       if (result.isLeft) {
         throw Exception(result.left.message);
       }
