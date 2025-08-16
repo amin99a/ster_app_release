@@ -17,7 +17,7 @@ class SocialAuthService extends ChangeNotifier {
 
       await Supabase.instance.client.auth.signInWithOAuth(
         OAuthProvider.google,
-        redirectTo: 'io.supabase.flutter://login-callback/',
+        redirectTo: 'ster://login-callback/',
       );
 
       // For demo purposes, simulate successful login
@@ -56,7 +56,7 @@ class SocialAuthService extends ChangeNotifier {
 
       await Supabase.instance.client.auth.signInWithOAuth(
         OAuthProvider.apple,
-        redirectTo: 'io.supabase.flutter://login-callback/',
+        redirectTo: 'ster://login-callback/',
       );
 
       // For demo purposes, simulate successful login
@@ -95,7 +95,7 @@ class SocialAuthService extends ChangeNotifier {
 
       await Supabase.instance.client.auth.signInWithOAuth(
         OAuthProvider.facebook,
-        redirectTo: 'io.supabase.flutter://login-callback/',
+        redirectTo: 'ster://login-callback/',
       );
 
       // For demo purposes, simulate successful login
