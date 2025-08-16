@@ -193,6 +193,12 @@ class _HomeContentState extends State<HomeContent> {
   List<Car> _cars = [];
   bool _isLoading = true;
   List<String> categories = ['All', 'SUV', 'Luxury', 'Electric', 'Convertible', 'Business', 'Sport', 'Mini'];
+  // Pagination state for Explore Cars
+  final int _carsLimit = 20;
+  int _carsOffset = 0;
+  bool _hasMoreCars = true;
+  bool _isLoadingMoreCars = false;
+  final ScrollController _carsScrollController = ScrollController();
 
   @override
   void initState() {
@@ -206,7 +212,8 @@ class _HomeContentState extends State<HomeContent> {
     } catch (_) {}
     _loadRecentlyViewed();
     _loadTopHosts();
-    _loadCars();
+    _loadCars(reset: true);
+    _carsScrollController.addListener(_onCarsScroll);
   }
 
   Future<void> _loadRecentlyViewed() async {
@@ -270,28 +277,53 @@ class _HomeContentState extends State<HomeContent> {
     }
   }
 
-  Future<void> _loadCars() async {
-    setState(() {
-      _isLoading = true;
-    });
-    
+  Future<void> _loadCars({bool reset = false}) async {
+    if (reset) {
+      setState(() {
+        _isLoading = true;
+        _carsOffset = 0;
+        _hasMoreCars = true;
+        _cars = [];
+      });
+    }
+    if (!_hasMoreCars) return;
     try {
       final carService = CarService();
       await carService.initialize();
-      final cars = await carService.getCars();
-      if (mounted) {
-        setState(() {
-          _cars = cars ?? []; // Handle nullable list
-          _isLoading = false;
-        });
-      }
+      final cars = await carService.getCars(limit: _carsLimit, offset: _carsOffset);
+      final fetched = cars ?? [];
+      if (!mounted) return;
+      setState(() {
+        if (reset) {
+          _cars = fetched;
+        } else {
+          _cars.addAll(fetched);
+        }
+        _isLoading = false;
+        _isLoadingMoreCars = false;
+        _carsOffset += fetched.length;
+        if (fetched.length < _carsLimit) {
+          _hasMoreCars = false;
+        }
+      });
     } catch (e) {
       print('Error loading cars: $e');
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+        _isLoadingMoreCars = false;
+      });
+    }
+  }
+
+  void _onCarsScroll() {
+    if (_carsScrollController.position.pixels >=
+        _carsScrollController.position.maxScrollExtent - 200) {
+      if (_isLoadingMoreCars || !_hasMoreCars || _isLoading) return;
+      setState(() {
+        _isLoadingMoreCars = true;
+      });
+      _loadCars();
     }
   }
 
@@ -445,106 +477,7 @@ class _HomeContentState extends State<HomeContent> {
                   children: [
                             const SizedBox(height: 15),
                             
-                            // Browse by destination section
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
-                              child: Text(
-                      'Browse by destination',
-                      style: GoogleFonts.inter(
-                                  fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
-                    ),
-                            ),
-                    
-                            const SizedBox(height: 12),
-                            
-                    LayoutBuilder(
-                      builder: (context, constraints) {
-                        final screenWidth = MediaQuery.of(context).size.width;
-                        final rowWidth = screenWidth * 0.85;
-                        final itemCount = 6;
-                        const gap = 8.0;
-                        final itemWidth = (rowWidth - gap * (itemCount - 1)) / itemCount;
-                        return Center(
-                          child: SizedBox(
-                            width: rowWidth,
-                      child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                                SizedBox(
-                                  width: itemWidth,
-                                  child: _buildDestinationOption(
-                            'Near by',
-                            Icons.location_on,
-                                    const Color(0xFF353935),
-                                    isSelected: _selectedDestination == 'Near by',
-                            onTap: () => _onDestinationSelected('Near by'),
-                                    imagePath: 'assets/images/near_by.png',
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: itemWidth,
-                                  child: _buildDestinationOption(
-                            'Algeria',
-                            Icons.flag,
-                                    const Color(0xFF353935),
-                                    isSelected: _selectedDestination == 'Algeria',
-                            onTap: () => _onDestinationSelected('Algeria'),
-                                    imagePath: 'assets/images/algeria.png',
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: itemWidth,
-                                  child: _buildDestinationOption(
-                            'Tunisia',
-                            Icons.flag,
-                                    const Color(0xFF353935),
-                                    isSelected: _selectedDestination == 'Tunisia',
-                            onTap: () => _onDestinationSelected('Tunisia'),
-                                    imagePath: 'assets/images/tunisia.png',
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: itemWidth,
-                                  child: _buildDestinationOption(
-                            'Morocco',
-                            Icons.flag,
-                                    const Color(0xFF353935),
-                                    isSelected: _selectedDestination == 'Morocco',
-                            onTap: () => _onDestinationSelected('Morocco'),
-                                    imagePath: 'assets/images/maroco.png',
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: itemWidth,
-                                  child: _buildDestinationOption(
-                            'Egypt',
-                            Icons.flag,
-                                    const Color(0xFF353935),
-                                    isSelected: _selectedDestination == 'Egypt',
-                            onTap: () => _onDestinationSelected('Egypt'),
-                                    imagePath: 'assets/images/egypt.png',
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: itemWidth,
-                                  child: _buildDestinationOption(
-                            'France',
-                            Icons.flag,
-                                    const Color(0xFF353935),
-                                    isSelected: _selectedDestination == 'France',
-                            onTap: () => _onDestinationSelected('France'),
-                                    imagePath: 'assets/images/france.png',
-                      ),
-                    ),
-                  ],
-                ),
-                          ),
-                        );
-                      },
-              ),
+                            // Browse by destination section removed
               
                             const SizedBox(height: 15),
 
@@ -744,17 +677,32 @@ class _HomeContentState extends State<HomeContent> {
               : SizedBox(
                                    height: MediaQuery.of(context).size.width * 0.8, // Increased height for better content fit
                   child: ListView.separated(
+                    controller: _carsScrollController,
                     clipBehavior: Clip.none,
                     scrollDirection: Axis.horizontal,
                     padding: const EdgeInsets.symmetric(horizontal: 0), // Removed left padding
-                    itemCount: filteredCars.length,
+                    itemCount: filteredCars.length + (_hasMoreCars ? 1 : 0),
                     separatorBuilder: (_, __) => const SizedBox(width: 12),
                     itemBuilder: (context, index) {
+                      if (index >= filteredCars.length) {
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: _isLoadingMoreCars
+                                ? const SizedBox(
+                                    width: 28,
+                                    height: 28,
+                                    child: CircularProgressIndicator(strokeWidth: 2),
+                                  )
+                                : const SizedBox(width: 1, height: 1),
+                          ),
+                        );
+                      }
                       final car = filteredCars[index];
                       return HomeCarCard(
                         car: car,
-                                         width: MediaQuery.of(context).size.width * 0.75, // Doubled from 0.375
-                                         height: MediaQuery.of(context).size.width * 0.8, // Increased height for better content fit
+                        width: MediaQuery.of(context).size.width * 0.75,
+                        height: MediaQuery.of(context).size.width * 0.8,
                       );
                     },
                   ),
