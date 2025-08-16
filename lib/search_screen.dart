@@ -6,6 +6,7 @@ import 'models/car.dart';
 import 'models/search_filter.dart';
 import 'services/availability_service.dart';
 import 'services/advanced_search_service.dart';
+import 'services/context_aware_service.dart';
 import 'package:provider/provider.dart';
 import 'widgets/save_to_favorites_modal.dart';
 import 'widgets/heart_icon.dart';
@@ -452,6 +453,15 @@ class _SearchScreenState extends State<SearchScreen>
   }
 
   void _navigateToCarDetails(Car car) {
+    // Track view_car event
+    try {
+      ContextAwareService().trackEvent(
+        eventName: 'view_car',
+        service: 'SearchService',
+        operation: 'navigate_to_car_details',
+        metadata: {'car_id': car.id, 'car_name': car.name},
+      );
+    } catch (_) {}
     Navigator.of(context).push(
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => CarDetailsScreen(car: car),
@@ -683,6 +693,18 @@ class _SearchScreenState extends State<SearchScreen>
                         ),
                       ),
                       
+                      const SizedBox(height: 14),
+
+                      // Quick Sort & Filter Chips (UI-only)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: _buildHorizontalSortChips(),
+                      ),
+                      const SizedBox(height: 8),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: _buildHorizontalCarTypeChips(),
+                      ),
                       const SizedBox(height: 14),
                       
                       // Car listings
@@ -1368,6 +1390,7 @@ class _SearchScreenState extends State<SearchScreen>
                         setState(() {
                 _selectedSortOption = isSelected ? null : option;
                         });
+                        _performFilteredSearch();
                       },
                                       child: Container(
               margin: const EdgeInsets.only(right: 8),
@@ -1489,6 +1512,7 @@ class _SearchScreenState extends State<SearchScreen>
                   _selectedCarTypes.add(type);
                 }
               });
+              _performFilteredSearch();
                       },
                       child: Container(
               margin: const EdgeInsets.only(right: 8),
