@@ -550,7 +550,7 @@ CREATE TABLE host_requests (
             avatar_url,
             role,
             cars!inner(id, rating),
-            bookings!inner(id, rating)
+            bookings(id, rating)
           ''')
           .eq('role', 'host')
           .limit(limit);
