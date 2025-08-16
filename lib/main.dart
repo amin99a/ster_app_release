@@ -37,6 +37,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   _setupLogging();
 
+  // Shorebird is automatically initialized when the app starts
+  // No manual initialization needed
+
   // Filter framework and platform-dispatched errors for known transient auth noise
   FlutterError.onError = (FlutterErrorDetails details) {
     final message = details.exceptionAsString();
