@@ -42,6 +42,8 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   flutter_launcher_icons: ^0.14.4
   file_picker: ^8.0.3
+  # Shorebird for OTA updates
+  shorebird_code_push: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -56,6 +58,7 @@ flutter:
     - assets/STER.png
     - assets/images/ster.png
     - assets/wilayas/
+    - shorebird.yaml
 
 flutter_launcher_icons:
   android: "launcher_icon"
